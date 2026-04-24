@@ -1,4 +1,30 @@
 export const API_BASE = "http://localhost:8080";
+export const EVALUATE_BASE = "http://localhost:8081";
+
+export interface EvaluateRequest {
+  question: string;
+  answer: string;
+  criteria: string;
+}
+
+export interface EvaluateResult {
+  score: number;
+  reason: string;
+}
+
+export async function evaluate(body: EvaluateRequest): Promise<EvaluateResult> {
+  const res = await fetch(`${EVALUATE_BASE}/evaluate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept-Language": "en" },
+    body: JSON.stringify(body),
+  });
+  if (!res.ok) throw new Error(`Evaluation failed: ${res.status}`);
+  const data = await res.json();
+  return {
+    score: typeof data?.score === "number" ? data.score : 0,
+    reason: typeof data?.reason === "string" ? data.reason : "",
+  };
+}
 
 export type Location = "us" | "eu";
 
