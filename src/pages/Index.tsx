@@ -25,6 +25,7 @@ interface Msg {
   id: string;
   role: Role;
   content: string;
+  intents?: string[];
   pending?: boolean;
 }
 
