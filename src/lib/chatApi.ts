@@ -29,7 +29,7 @@ const parseIntents = (intent: unknown): string[] => {
 export async function scoreOnce(body: ScoreRequest, signal?: AbortSignal): Promise<ScoreResult> {
   const res = await fetch(`${API_BASE}/score`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: { "Content-Type": "application/json", "Accept-Language": "en" },
     body: JSON.stringify(body),
     signal,
   });
@@ -54,7 +54,7 @@ export async function scoreStream(
 ): Promise<void> {
   const res = await fetch(`${API_BASE}/score/stream`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
+    headers: { "Content-Type": "application/json", Accept: "text/event-stream", "Accept-Language": "en" },
     body: JSON.stringify(body),
     signal,
   });
@@ -82,7 +82,7 @@ export async function scoreStream(
       handlers.onIntents?.(parseIntents(parsed.intent));
     }
 
-    if (typeof stage === "string" && stage.includes("answer")) {
+    if (stage === "answer" && parsed?.state === "streaming") {
       const message = parsed?.message;
       if (typeof message === "string" && message.length > 0) {
         try {
@@ -92,8 +92,7 @@ export async function scoreStream(
             handlers.onChunk(chunk);
           }
         } catch {
-          // message wasn't a JSON string — fall back to raw text
-          handlers.onChunk(message);
+          return;
         }
       }
     }

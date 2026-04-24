@@ -32,7 +32,7 @@ interface Msg {
 const Index = () => {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [input, setInput] = useState("");
-  const [streaming, setStreaming] = useState(true);
+  const [streaming, setStreaming] = useState(false);
   const [location, setLocation] = useState<Location>("eu");
   const [loading, setLoading] = useState(false);
 
