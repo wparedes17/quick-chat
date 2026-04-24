@@ -268,24 +268,38 @@ const MessageBubble = ({ msg }: { msg: Msg }) => {
       >
         {isUser ? <User className="size-4" /> : <Bot className="size-4" />}
       </div>
-      <div
-        className={cn(
-          "max-w-[80%] rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
-          isUser
-            ? "bg-primary text-primary-foreground rounded-tr-sm"
-            : "bg-secondary text-secondary-foreground rounded-tl-sm",
-        )}
-      >
-        {msg.pending && !msg.content ? (
-          <span className="inline-flex gap-1">
-            <span className="size-1.5 rounded-full bg-current animate-bounce [animation-delay:-0.3s]" />
-            <span className="size-1.5 rounded-full bg-current animate-bounce [animation-delay:-0.15s]" />
-            <span className="size-1.5 rounded-full bg-current animate-bounce" />
-          </span>
-        ) : isUser ? (
-          <p className="whitespace-pre-wrap break-words">{msg.content}</p>
-        ) : (
-          <Markdown content={msg.content} />
+      <div className={cn("max-w-[80%] flex flex-col gap-1.5", isUser && "items-end")}>
+        <div
+          className={cn(
+            "rounded-2xl px-4 py-2.5 text-sm leading-relaxed",
+            isUser
+              ? "bg-primary text-primary-foreground rounded-tr-sm"
+              : "bg-secondary text-secondary-foreground rounded-tl-sm",
+          )}
+        >
+          {msg.pending && !msg.content ? (
+            <span className="inline-flex gap-1">
+              <span className="size-1.5 rounded-full bg-current animate-bounce [animation-delay:-0.3s]" />
+              <span className="size-1.5 rounded-full bg-current animate-bounce [animation-delay:-0.15s]" />
+              <span className="size-1.5 rounded-full bg-current animate-bounce" />
+            </span>
+          ) : isUser ? (
+            <p className="whitespace-pre-wrap break-words">{msg.content}</p>
+          ) : (
+            <Markdown content={msg.content} />
+          )}
+        </div>
+        {!isUser && msg.intents && msg.intents.length > 0 && (
+          <div className="flex flex-wrap gap-1">
+            {msg.intents.map((tag) => (
+              <span
+                key={tag}
+                className="inline-flex items-center rounded-full border border-border bg-background px-2 py-0.5 text-[10px] font-medium text-muted-foreground"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         )}
       </div>
     </div>
