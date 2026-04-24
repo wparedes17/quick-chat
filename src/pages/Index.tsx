@@ -273,9 +273,7 @@ const MessageBubble = ({ msg }: { msg: Msg }) => {
         ) : isUser ? (
           <p className="whitespace-pre-wrap break-words">{msg.content}</p>
         ) : (
-          <div className="prose prose-sm max-w-none prose-p:my-1 prose-pre:my-2 prose-headings:my-2 break-words">
-            <ReactMarkdown>{msg.content}</ReactMarkdown>
-          </div>
+          <Markdown content={msg.content} />
         )}
       </div>
     </div>
