@@ -54,7 +54,7 @@ export async function scoreStream(
 ): Promise<void> {
   const res = await fetch(`${API_BASE}/score/stream`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", Accept: "text/event-stream", "Accept-Language": "en" },
+    headers: { "Content-Type": "application/json", Accept: "application/x-ndjson", "Accept-Language": "en" },
     body: JSON.stringify(body),
     signal,
   });
@@ -103,16 +103,11 @@ export async function scoreStream(
     if (done) break;
     buffer += decoder.decode(value, { stream: true });
 
-    // SSE: events separated by blank line; collect all "data:" lines per event.
-    const parts = buffer.split(/\r?\n\r?\n/);
-    buffer = parts.pop() ?? "";
-    for (const evt of parts) {
-      const dataLines: string[] = [];
-      for (const line of evt.split(/\r?\n/)) {
-        const trimmed = line.trimStart();
-        if (trimmed.startsWith("data:")) dataLines.push(trimmed.slice(5).trim());
-      }
-      if (dataLines.length) handlePayload(dataLines.join("\n"));
+    // NDJSON: one JSON object per line
+    const lines = buffer.split(/\r?\n/);
+    buffer = lines.pop() ?? "";
+    for (const line of lines) {
+      if (line.trim()) handlePayload(line);
     }
   }
 }
