@@ -77,14 +77,23 @@ const Index = () => {
       if (streaming) {
         await scoreStream(
           body,
-          (chunk) => {
-            setMessages((m) =>
-              m.map((msg) =>
-                msg.id === assistantId
-                  ? { ...msg, content: msg.content + chunk, pending: false }
-                  : msg,
-              ),
-            );
+          {
+            onChunk: (chunk) => {
+              setMessages((m) =>
+                m.map((msg) =>
+                  msg.id === assistantId
+                    ? { ...msg, content: msg.content + chunk, pending: false }
+                    : msg,
+                ),
+              );
+            },
+            onIntents: (intents) => {
+              setMessages((m) =>
+                m.map((msg) =>
+                  msg.id === assistantId ? { ...msg, intents } : msg,
+                ),
+              );
+            },
           },
           controller.signal,
         );
@@ -92,10 +101,12 @@ const Index = () => {
           m.map((msg) => (msg.id === assistantId ? { ...msg, pending: false } : msg)),
         );
       } else {
-        const answer = await scoreOnce(body, controller.signal);
+        const { answer, intents } = await scoreOnce(body, controller.signal);
         setMessages((m) =>
           m.map((msg) =>
-            msg.id === assistantId ? { ...msg, content: answer, pending: false } : msg,
+            msg.id === assistantId
+              ? { ...msg, content: answer, intents, pending: false }
+              : msg,
           ),
         );
       }
