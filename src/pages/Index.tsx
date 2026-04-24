@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import ReactMarkdown from "react-markdown";
+import { Markdown } from "@/components/Markdown";
 import { Send, Loader2, Zap, MessageSquare, Bot, User, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -273,9 +273,7 @@ const MessageBubble = ({ msg }: { msg: Msg }) => {
         ) : isUser ? (
           <p className="whitespace-pre-wrap break-words">{msg.content}</p>
         ) : (
-          <div className="prose prose-sm max-w-none prose-p:my-1 prose-pre:my-2 prose-headings:my-2 break-words">
-            <ReactMarkdown>{msg.content}</ReactMarkdown>
-          </div>
+          <Markdown content={msg.content} />
         )}
       </div>
     </div>
