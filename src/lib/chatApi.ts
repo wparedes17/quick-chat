@@ -1,5 +1,24 @@
 export const API_BASE = "http://localhost:8080";
 export const EVALUATE_BASE = "http://localhost:8081";
+export const FOLLOW_BASE = "http://localhost:8082";
+
+export async function follow(
+  lastMessageFromYou: string,
+  lastResponseFromSystem: string,
+): Promise<string> {
+  const res = await fetch(`${FOLLOW_BASE}/follow`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", "Accept-Language": "en" },
+    body: JSON.stringify({
+      last_message_from_you: lastMessageFromYou,
+      last_response_from_system: lastResponseFromSystem,
+    }),
+  });
+  if (!res.ok) throw new Error(`Follow failed: ${res.status}`);
+  const data = await res.json();
+  if (typeof data?.new_message !== "string") throw new Error("Invalid follow response");
+  return data.new_message;
+}
 
 export interface EvaluateRequest {
   question: string;

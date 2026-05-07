@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Markdown } from "@/components/Markdown";
-import { Send, Loader2, Zap, MessageSquare, Bot, User, Trash2, FlaskConical, BarChart2 } from "lucide-react";
+import { Send, Loader2, Zap, MessageSquare, Bot, User, Trash2, FlaskConical, BarChart2, MessagesSquare } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Switch } from "@/components/ui/switch";
@@ -23,6 +23,7 @@ import {
 } from "@/lib/chatApi";
 import { MultipleAnalysis } from "@/components/MultipleAnalysis";
 import { TopicAnalysis } from "@/components/TopicAnalysis";
+import { ConversationEvaluation } from "@/components/ConversationEvaluation";
 
 type Role = "user" | "assistant";
 interface Msg {
@@ -48,6 +49,7 @@ const Index = () => {
 
   const sessionIdRef = useRef(randomId());
   const userIdRef = useRef(randomId());
+  const [sessionDisplay, setSessionDisplay] = useState(() => sessionIdRef.current.slice(0, 8));
   const scrollRef = useRef<HTMLDivElement>(null);
   const abortRef = useRef<AbortController | null>(null);
 
@@ -151,8 +153,12 @@ const Index = () => {
 
   const clearChat = () => {
     abortRef.current?.abort();
+    abortRef.current = null;
     setMessages([]);
+    setLoading(false);
     sessionIdRef.current = randomId();
+    userIdRef.current = randomId();
+    setSessionDisplay(sessionIdRef.current.slice(0, 8));
   };
 
   const runAnalysis = async () => {
@@ -193,7 +199,7 @@ const Index = () => {
           <div className="flex-1 min-w-0">
             <h1 className="text-base font-semibold leading-tight">Chatbot</h1>
             <p className="text-xs text-muted-foreground truncate">
-              session: {sessionIdRef.current.slice(0, 8)}
+              session: {sessionDisplay}
             </p>
           </div>
 
@@ -269,6 +275,13 @@ const Index = () => {
               >
                 <BarChart2 className="size-3.5" />
                 Topic Analysis
+              </TabsTrigger>
+              <TabsTrigger
+                value="convo"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent px-4 h-10 text-sm flex items-center gap-1.5"
+              >
+                <MessagesSquare className="size-3.5" />
+                Conversation
               </TabsTrigger>
             </TabsList>
           </div>
@@ -425,6 +438,11 @@ const Index = () => {
         {/* Topic Analysis tab */}
         <TabsContent value="topic" className="flex-1 overflow-y-auto mt-0">
           <TopicAnalysis location={location} />
+        </TabsContent>
+
+        {/* Conversation Evaluation tab */}
+        <TabsContent value="convo" className="flex-1 overflow-y-auto mt-0">
+          <ConversationEvaluation location={location} />
         </TabsContent>
       </Tabs>
     </div>
