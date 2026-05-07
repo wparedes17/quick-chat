@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
@@ -51,6 +51,14 @@ export const ConversationEvaluation = ({ location }: { location: Location }) => 
 
   const userIdRef = useRef(randomId());
   const stopRef = useRef(false);
+  const transcriptRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    transcriptRef.current?.scrollTo({
+      top: transcriptRef.current.scrollHeight,
+      behavior: "smooth",
+    });
+  }, [conversation]);
 
   const runConversation = async () => {
     if (!initialQuestion.trim() || running) return;
@@ -196,7 +204,10 @@ export const ConversationEvaluation = ({ location }: { location: Location }) => 
       {/* Transcript */}
       {conversation.length > 0 && (
         <div className="space-y-4">
-          <div className="rounded-xl border border-border overflow-hidden divide-y divide-border">
+          <div
+            ref={transcriptRef}
+            className="rounded-xl border border-border overflow-y-auto max-h-[420px] divide-y divide-border"
+          >
             {conversation.flatMap((turn, i) => [
               <div key={`u-${i}`} className="px-4 py-3 bg-muted/40">
                 <span className="text-[10px] font-bold uppercase tracking-widest text-primary block mb-1.5">
