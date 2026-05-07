@@ -17,7 +17,11 @@ export async function follow(
   if (!res.ok) throw new Error(`Follow failed: ${res.status}`);
   const data = await res.json();
   if (typeof data?.new_message !== "string") throw new Error("Invalid follow response");
-  return data.new_message;
+  return data.new_message
+    .replace(/\\[nrt]/g, " ")   // literal escape sequences like \n \r \t
+    .replace(/[\n\r\t]/g, " ")  // actual control characters
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export interface EvaluateRequest {
