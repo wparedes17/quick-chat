@@ -1,0 +1,230 @@
+{
+  "models": {
+    "vl_transmittance_pct": {
+      "intercept": 4.530121151786879,
+      "coefficients": {
+        "min_emis": -2.8942924092117845,
+        "tf_sol": -7.988165280390824,
+        "rf_sol": 5.288940098433243,
+        "rb_sol": -8.83690869333216,
+        "tf_vis": 91.56273880647855,
+        "rf_vis": -23.122322804129627,
+        "rb_vis": 26.800863715613445
+      },
+      "predictors": [
+        "min_emis",
+        "tf_sol",
+        "rf_sol",
+        "rb_sol",
+        "tf_vis",
+        "rf_vis",
+        "rb_vis"
+      ]
+    },
+    "vl_reflection_outside_pct": {
+      "intercept": 2.99603196486944,
+      "coefficients": {
+        "min_emis": -1.4287120525367158,
+        "tf_sol": -13.396288543787149,
+        "rf_sol": -0.866728660874186,
+        "rb_sol": -10.781923340058292,
+        "tf_vis": 15.423931474393381,
+        "rf_vis": 90.74268124638556,
+        "rb_vis": 17.389706735420365
+      },
+      "predictors": [
+        "min_emis",
+        "tf_sol",
+        "rf_sol",
+        "rb_sol",
+        "tf_vis",
+        "rf_vis",
+        "rb_vis"
+      ]
+    },
+    "vl_reflection_inside_pct": {
+      "intercept": 9.452526146441604,
+      "coefficients": {
+        "min_emis": 2.180952312712251,
+        "tf_sol": -7.125859345078077,
+        "rf_sol": -0.7612617367915199,
+        "rb_sol": -1.7216841395455054,
+        "tf_vis": 3.6588571337810163,
+        "rf_vis": 8.088741000077146,
+        "rb_vis": 67.24755178622817
+      },
+      "predictors": [
+        "min_emis",
+        "tf_sol",
+        "rf_sol",
+        "rb_sol",
+        "tf_vis",
+        "rf_vis",
+        "rb_vis"
+      ]
+    },
+    "uv_transmittance_pct": {
+      "intercept": 20.58032738624687,
+      "coefficients": {
+        "min_emis": -24.63031253592883,
+        "tf_sol": 54.60967623803972,
+        "rf_sol": 4.414134460836573,
+        "rb_sol": -37.30242834561792,
+        "tf_vis": -11.224660458295105,
+        "rf_vis": -0.7466461041771343,
+        "rb_vis": 35.4763996979923
+      },
+      "predictors": [
+        "min_emis",
+        "tf_sol",
+        "rf_sol",
+        "rb_sol",
+        "tf_vis",
+        "rf_vis",
+        "rb_vis"
+      ]
+    },
+    "solar_direct_transmission_pct": {
+      "intercept": 12.157906073813388,
+      "coefficients": {
+        "min_emis": -12.61163179732806,
+        "tf_sol": 42.85505381816057,
+        "rf_sol": 2.6494308260618675,
+        "rb_sol": -27.513629393794204,
+        "tf_vis": 25.870515632262936,
+        "rf_vis": -18.45795483898323,
+        "rb_vis": 40.14814607876188
+      },
+      "predictors": [
+        "min_emis",
+        "tf_sol",
+        "rf_sol",
+        "rb_sol",
+        "tf_vis",
+        "rf_vis",
+        "rb_vis"
+      ]
+    },
+    "solar_reflection_inside_pct": {
+      "intercept": 0.3602864901763141,
+      "coefficients": {
+        "min_emis": 11.74294322281526,
+        "tf_sol": 17.10082673016183,
+        "rf_sol": 15.667706032674953,
+        "rb_sol": 65.90251538326913,
+        "tf_vis": -6.235264974635428,
+        "rf_vis": -13.643069758833823,
+        "rb_vis": 8.84415596530469
+      },
+      "predictors": [
+        "min_emis",
+        "tf_sol",
+        "rf_sol",
+        "rb_sol",
+        "tf_vis",
+        "rf_vis",
+        "rb_vis"
+      ]
+    },
+    "solar_reflection_outside_pct": {
+      "intercept": -6.194459172621482,
+      "coefficients": {
+        "min_emis": 6.620345423574537,
+        "tf_sol": 1.5229225795395678,
+        "rf_sol": 67.33587540296426,
+        "rb_sol": 12.214681492498572,
+        "tf_vis": 11.406035904662872,
+        "rf_vis": 18.602896334067516,
+        "rb_vis": 9.4471043420427
+      },
+      "predictors": [
+        "min_emis",
+        "tf_sol",
+        "rf_sol",
+        "rb_sol",
+        "tf_vis",
+        "rf_vis",
+        "rb_vis"
+      ]
+    }
+  },
+  "metadata": {
+    "model_type": "linear",
+    "raw_inputs_required": [
+      "emis_f",
+      "emis_b",
+      "tf_sol",
+      "rf_sol",
+      "rb_sol",
+      "tf_vis",
+      "rf_vis",
+      "rb_vis"
+    ],
+    "model_features": [
+      "min_emis",
+      "tf_sol",
+      "rf_sol",
+      "rb_sol",
+      "tf_vis",
+      "rf_vis",
+      "rb_vis"
+    ],
+    "targets": [
+      "vl_transmittance_pct",
+      "vl_reflection_outside_pct",
+      "vl_reflection_inside_pct",
+      "uv_transmittance_pct",
+      "solar_direct_transmission_pct",
+      "solar_reflection_inside_pct",
+      "solar_reflection_outside_pct"
+    ],
+    "feature_engineering": {
+      "min_emis": "min(emis_f, emis_b)",
+      "dropped": []
+    },
+    "evaluation_metrics": [
+      {
+        "target": "vl_transmittance_pct",
+        "r2": 0.9518140121921921,
+        "mae": 2.2599946957488566,
+        "rmse": 3.723008451664343
+      },
+      {
+        "target": "vl_reflection_outside_pct",
+        "r2": 0.7950257389528149,
+        "mae": 1.7326838371198772,
+        "rmse": 3.6066107775292355
+      },
+      {
+        "target": "vl_reflection_inside_pct",
+        "r2": 0.8028215818312077,
+        "mae": 1.5740512349734868,
+        "rmse": 2.83749615959929
+      },
+      {
+        "target": "uv_transmittance_pct",
+        "r2": 0.5159941132951789,
+        "mae": 4.432694188533973,
+        "rmse": 6.153440462725302
+      },
+      {
+        "target": "solar_direct_transmission_pct",
+        "r2": 0.8529263404715328,
+        "mae": 2.5251283470006163,
+        "rmse": 3.9223825677006925
+      },
+      {
+        "target": "solar_reflection_inside_pct",
+        "r2": 0.6495181683553753,
+        "mae": 3.4996907041133714,
+        "rmse": 4.930193145336982
+      },
+      {
+        "target": "solar_reflection_outside_pct",
+        "r2": 0.8128537331933503,
+        "mae": 3.1896017016723683,
+        "rmse": 4.93086393673873
+      }
+    ]
+  }
+}
